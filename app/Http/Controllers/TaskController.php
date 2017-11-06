@@ -31,7 +31,7 @@ class TaskController extends Controller
     {
         $this->middleware('auth');
 
-        $this->tasks = $tasks;
+        //$this->tasks = $tasks;  //TaskRepository作用何在???????
     }
 
     /**
@@ -43,7 +43,8 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $tasks = Task::where('user_id', $request->user()->id)->get();
-
+//        $user=User::where('id', $request->user()->id);
+//        $tasks=$this->tasks->forUser($user);
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
