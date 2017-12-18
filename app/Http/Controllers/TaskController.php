@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Repositories\TaskRepository;
 use App\Task;
+use Auth;
 
 class TaskController extends Controller
 {
@@ -42,7 +43,9 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Task::where('user_id', $request->user()->id)->get();
+        $tasks = Task::where('user_id', Auth::user()->id)->get();
+//        $tasks = Task::where('user_id', $request->user()->id)->get();
+//
 //        $user=User::where('id', $request->user()->id);
 //        $tasks=$this->tasks->forUser($user);
         return view('tasks.index', [
@@ -62,7 +65,8 @@ class TaskController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        $request->user()->tasks()->create([
+//        $request->user()->tasks()->create([
+        auth()->user()->tasks()->create([
             'name' => $request->name,
         ]);
 
