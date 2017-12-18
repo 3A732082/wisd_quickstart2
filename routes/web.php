@@ -12,8 +12,9 @@
 */
 
 // 認證路由...
-Route::auth();
+//Route::auth();
 
+Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
