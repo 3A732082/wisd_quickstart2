@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
+//use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Repositories\TaskRepository;
 use App\Task;
-use Auth;
+//use Auth;
 
 class TaskController extends Controller
 {
@@ -41,13 +41,15 @@ class TaskController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $tasks = Task::where('user_id', Auth::user()->id)->get();
+//        $tasks = Task::where('user_id', Auth::user()->id)->get();
 //        $tasks = Task::where('user_id', $request->user()->id)->get();
 //
 //        $user=User::where('id', $request->user()->id);
 //        $tasks=$this->tasks->forUser($user);
+        $tasks=auth()->user()->tasks;   // auth()->user()代表登入者的User model
+                                        // auth()->user()等同於Auth::user()
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
