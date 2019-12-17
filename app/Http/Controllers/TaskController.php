@@ -52,7 +52,8 @@ class TaskController extends Controller
         //$tasks=auth()->user()->tasks;   // auth()->user()代表登入者的User model
                                         // auth()->user()等同於Auth::user()
         //$tasks=auth()->user()->tasks()->where('id', 2)->get();
-        $tasks=auth()->user()->tasks()->paginate(2);  //登入者任務分頁顯示，每頁2筆
+        //$tasks=auth()->user()->tasks()->paginate(2);  //登入者任務分頁顯示，每頁2筆
+        $tasks=auth()->user()->tasks()->orderBy('name', 'ASC')->paginate(2);
         //dd($tasks);
 
         return view('tasks.index', [
