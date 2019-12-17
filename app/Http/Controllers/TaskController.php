@@ -38,18 +38,23 @@ class TaskController extends Controller
     /**
      * 顯示使用者所有任務的清單。
      *
-     * @param  Request  $request
+     * @param
      * @return Response
      */
-    public function index()
+    public function index(Request  $request)
     {
 //        $tasks = Task::where('user_id', Auth::user()->id)->get();
 //        $tasks = Task::where('user_id', $request->user()->id)->get();
 //
 //        $user=User::where('id', $request->user()->id);
 //        $tasks=$this->tasks->forUser($user);
-        $tasks=auth()->user()->tasks;   // auth()->user()代表登入者的User model
+
+        //$tasks=auth()->user()->tasks;   // auth()->user()代表登入者的User model
                                         // auth()->user()等同於Auth::user()
+        //$tasks=auth()->user()->tasks()->where('id', 2)->get();
+        $tasks=auth()->user()->tasks()->paginate(2);  //登入者任務分頁顯示，每頁2筆
+        //dd($tasks);
+
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
@@ -68,9 +73,12 @@ class TaskController extends Controller
         ]);
 
 //        $request->user()->tasks()->create([
-        auth()->user()->tasks()->create([
-            'name' => $request->name,
-        ]);
+        auth()->user()->tasks()->create(
+//            [
+//            'name' => $request->name,
+//        ]
+            $request->all()
+        );
 
         return redirect('/tasks');
     }
